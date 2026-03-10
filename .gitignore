@@ -1,0 +1,47 @@
+# object files
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+
+# binaries
+db
+auth
+game
+game_r
+db_r
+
+# logs
+*.log
+log/
+logs/
+syslog
+PTS
+
+# dumps
+core
+core.*
+*.core
+
+# temp/cache
+tmp/
+temp/
+.cache/
+
+# editor
+.vscode/
+.idea/
+
+# python
+__pycache__/
+*.pyc
+
+# cmake/make
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# system
+.DS_Store
+Thumbs.db
