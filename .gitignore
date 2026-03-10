@@ -45,3 +45,15 @@ cmake_install.cmake
 # system
 .DS_Store
 Thumbs.db
+# compiled binaries
+/game/game
+/db/db
+/auth/auth
+
+# objects / logs / dumps
+*.o
+*.obj
+*.core
+core
+core.*
+*.log
