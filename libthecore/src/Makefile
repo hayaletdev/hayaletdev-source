@@ -1,4 +1,4 @@
-CC = clang++
+CC = ccache clang++
 CFLAGS = -m32 -Wall -O2 -pipe -g
 CXXFLAGS = -std=c++17 -Wno-invalid-source-encoding -Wno-deprecated
 

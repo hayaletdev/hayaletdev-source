@@ -1,4 +1,4 @@
-CC = clang++
+CC = ccache clang++
 CFLAGS = -m32 -Wall -O2 -pipe -D_THREAD_SAFE -fno-exceptions
 CXXFLAGS = -std=c++17
 

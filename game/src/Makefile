@@ -1,6 +1,10 @@
-CC = clang++
-CFLAGS = -m32 -w -g -Wall -O2 -pipe -fexceptions -D_THREAD_SAFE -DNDEBUG
-CXXFLAGS = -std=c++17 -Wno-invalid-source-encoding -Wno-unused-private-field -Wno-unknown-pragmas -Wno-format-security
+CC = ccache clang
+CXX = ccache clang++
+
+CFLAGS = -m32 -w -g -Wall -O2 -pipe -D_THREAD_SAFE -DNDEBUG
+CXXFLAGS = -m32 -w -g -Wall -O2 -pipe -fexceptions -D_THREAD_SAFE -DNDEBUG \
+	-std=c++17 -Wno-invalid-source-encoding -Wno-unused-private-field \
+	-Wno-unknown-pragmas -Wno-format-security
 
 BSD_VERSION = $(shell uname -v 2>&1 | cut -d' ' -f2 | cut -d'.' -f1)
 PLATFORM = $(shell file /bin/ls | cut -d' ' -f3 | cut -d'-' -f1)
@@ -44,15 +48,20 @@ LIBS += -lssl -lcrypto
 # Project Library
 LIBDIR += -L../../libthecore/lib
 LIBS += -lthecore
+
 LIBDIR += -L../../libpoly
 LIBS += -lpoly
+
 LIBDIR += -L../../libsql
 LIBS += -lsql
+
 LIBDIR += -L../../libgame/lib
 LIBS += -lgame
+
 INCDIR += -I../../liblua/include
 LIBDIR += -L../../liblua/lib
 LIBS += -llua -llualib
+
 INCDIR += -I../../libserverkey
 LIBDIR += -L../../libserverkey
 LIBS += -lserverkey
@@ -85,29 +94,25 @@ CPPFILE = affect.cpp ani.cpp arena.cpp auth_brazil.cpp banword.cpp battle.cpp Ba
 COBJS = $(CFILE:%.c=$(OBJDIR)/%.o)
 CPPOBJS = $(CPPFILE:%.cpp=$(OBJDIR)/%.o)
 
-MAINOBJ = $(OBJDIR)/main.o
 MAINCPP = main.cpp
+MAINOBJ = $(OBJDIR)/main.o
 
 default: $(TARGET)
 
 $(TARGET): $(CPPOBJS) $(COBJS) $(MAINOBJ)
 	@echo "Linking $(TARGET)"
-	@$(CC) $(CFLAGS) $(CXXFLAGS) $(LIBDIR) $(COBJS) $(CPPOBJS) $(MAINOBJ) $(LIBS) -o $(TARGET)
+	@$(CXX) $(CXXFLAGS) $(LIBDIR) $(COBJS) $(CPPOBJS) $(MAINOBJ) $(LIBS) -o $(TARGET)
 
-$(OBJDIR)/minilzo.o: minilzo.c
-	@echo "Compiling $<"
-	@$(CC) $(CFLAGS) $(CXXFLAGS) $(INCDIR) -c $< -o $@
+$(OBJDIR)/%.o: %.c
+	@echo "Compiling C $<"
+	@$(CC) $(CFLAGS) $(INCDIR) -c $< -o $@
 
 $(OBJDIR)/%.o: %.cpp
-	@echo "Compiling $<"
-	@$(CC) $(CFLAGS) $(CXXFLAGS) $(INCDIR) -c $< -o $@
-
-# limit_time:
-# 	@echo update limit time
-# 	@python update_limit_time.py
+	@echo "Compiling C++ $<"
+	@$(CXX) $(CXXFLAGS) $(INCDIR) -c $< -o $@
 
 clean:
-	@rm -f $(COBJS) $(CPPOBJS)
+	@rm -f $(COBJS) $(CPPOBJS) $(MAINOBJ)
 	@rm -f $(BINDIR)/game_r* $(BINDIR)/conv
 
 tag:

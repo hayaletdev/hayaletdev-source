@@ -1,6 +1,9 @@
-CC = clang++
-CFLAGS = -m32 -g -Wall -O2 -pipe -fno-rtti -fno-exceptions -pthread -D_THREAD_SAFE
-CXXFLAGS = -std=c++17 -Wno-invalid-source-encoding
+CC = ccache clang
+CXX = ccache clang++
+
+CFLAGS = -m32 -g -Wall -O2 -pipe -pthread -D_THREAD_SAFE
+CXXFLAGS = -m32 -g -Wall -O2 -pipe -pthread -D_THREAD_SAFE \
+	-fno-rtti -fno-exceptions -std=c++17 -Wno-invalid-source-encoding
 
 BSD_VERSION = $(shell uname -v 2>&1 | cut -d' ' -f2 | cut -d'.' -f1)
 PLATFORM = $(shell file /bin/ls | cut -d' ' -f3 | cut -d'-' -f1)
@@ -61,11 +64,11 @@ default: $(TARGET)
 
 $(TARGET): $(OBJS)
 	@echo "Linking $(TARGET)"
-	@$(CC) $(CFLAGS) $(CXXFLAGS) $(LIBDIR) $(OBJS) $(LIBS) -o $(TARGET)
+	@$(CXX) $(CXXFLAGS) $(LIBDIR) $(OBJS) $(LIBS) -o $(TARGET)
 
 $(OBJDIR)/%.o: %.cpp
-	@echo "Compiling $<"
-	@$(CC) $(CFLAGS) $(CXXFLAGS) $(INCDIR) -c $< -o $@
+	@echo "Compiling C++ $<"
+	@$(CXX) $(CXXFLAGS) $(INCDIR) -c $< -o $@
 
 $(OBJDIR):
 	@mkdir $(OBJDIR)
@@ -75,6 +78,6 @@ clean:
 
 dep:
 	@touch Depend
-	makedepend -f Depend $(INCDIR) -I/usr/include/c++/3.3 -I/usr/include/c++/4.2 -p$(OBJDIR)/ $(SRCS) 2> /dev/null
+	makedepend -f Depend $(INCDIR) -I/usr/include/c++/3.3 -I/usr/include/c++/4.2 -p$(OBJDIR)/ $(CPPFILE) 2> /dev/null
 
 sinclude Depend
