@@ -12,7 +12,7 @@
 
 inline double uniform_random(const double a, const double b)
 {
-	return thecore_random() / (RAND_MAX + 1.f) * (b - a) + a;
+	return static_cast<double>(thecore_random()) / (static_cast<double>(RAND_MAX) + 1.0) * (b - a) + a;
 }
 
 inline float gauss_random(const float fAverage, const float sigma)
