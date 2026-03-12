@@ -1,59 +1,110 @@
-# object files
+# ------------------------------
+
+# Build Artifacts
+
+# ------------------------------
+
 *.o
 *.obj
 *.a
 *.so
 *.so.*
 
-# binaries
-db
-auth
-game
-game_r
-db_r
+# Object directories
 
-# logs
+OBJDIR/
+
+# Dependency files
+
+Depend
+Depend.bak
+
+# ------------------------------
+
+# Compiled Binaries
+
+# ------------------------------
+
+/game/game
+/game/game_r
+/db/db
+/db/db_r
+/auth/auth
+
+# ------------------------------
+
+# Logs
+
+# ------------------------------
+
 *.log
 log/
 logs/
 syslog
 PTS
 
-# dumps
+# ------------------------------
+
+# Crash Dumps
+
+# ------------------------------
+
 core
 core.*
 *.core
 
-# temp/cache
+# ------------------------------
+
+# Temp / Cache
+
+# ------------------------------
+
 tmp/
 temp/
 .cache/
 
-# editor
+# ------------------------------
+
+# Python
+
+# ------------------------------
+
+**pycache**/
+*.pyc
+
+# ------------------------------
+
+# Editors / IDE
+
+# ------------------------------
+
 .vscode/
 .idea/
 
-# python
-__pycache__/
-*.pyc
+# ------------------------------
 
-# cmake/make
+# CMake / Build Systems
+
+# ------------------------------
+
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 
-# system
+# ------------------------------
+
+# OS Files
+
+# ------------------------------
+
 .DS_Store
 Thumbs.db
-# compiled binaries
-/game/game
-/db/db
-/auth/auth
 
-# objects / logs / dumps
-*.o
-*.obj
-*.core
-core
-core.*
-*.log
+# ------------------------------
+
+# Backup files
+
+# ------------------------------
+
+*.bak
+*~
