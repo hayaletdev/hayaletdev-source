@@ -934,21 +934,39 @@ void CHARACTER::Reward(bool bItemDrop)
 			else
 #endif
 			{
-				item->AddToGround(GetMapIndex(), pos);
+				LPCHARACTER pkOwner = nullptr;
+
 				if (CBattleArena::instance().IsBattleArenaMap(pkAttacker->GetMapIndex()) == false)
+				{
 #if defined(__DICE_SYSTEM__)
-					item->SetOwnership(f.GetItemOwner());
+					pkOwner = f.GetItemOwner();
 #else
-					item->SetOwnership(pkAttacker);
+					pkOwner = pkAttacker;
 #endif
-				item->StartDestroyEvent();
+				}
 
-				pos.x = number(-7, 7) * 20;
-				pos.y = number(-7, 7) * 20;
-				pos.x += GetX();
-				pos.y += GetY();
+#ifdef __COMFORT_PACKAGE_SYSTEM__
+				if (pkOwner && pkOwner->TryComfortAutoGiveItem(item))
+				{
+					sys_log(0, "COMFORT_AUTO_GIVE: %s -> %s", pkOwner->GetName(), item->GetName());
+				}
+				else
+#endif
+				{
+					item->AddToGround(GetMapIndex(), pos);
 
-				sys_log(0, "DROP_ITEM: %s %d %d from %s", item->GetName(), pos.x, pos.y, GetName());
+					if (pkOwner)
+						item->SetOwnership(pkOwner);
+
+					item->StartDestroyEvent();
+
+					pos.x = number(-7, 7) * 20;
+					pos.y = number(-7, 7) * 20;
+					pos.x += GetX();
+					pos.y += GetY();
+
+					sys_log(0, "DROP_ITEM: %s %d %d from %s", item->GetName(), pos.x, pos.y, GetName());
+				}
 			}
 		}
 		else
@@ -996,7 +1014,6 @@ void CHARACTER::Reward(bool bItemDrop)
 					}
 
 					item->AddToGround(GetMapIndex(), pos);
-					// 10% 이하 데미지 준 사람끼리는 소유권없음
 					//item->SetOwnership(pkAttacker);
 					item->StartDestroyEvent();
 
@@ -1048,23 +1065,39 @@ void CHARACTER::Reward(bool bItemDrop)
 					else
 #endif
 					{
-						item->AddToGround(GetMapIndex(), pos);
+						LPCHARACTER pkOwner = nullptr;
+
 						if (CBattleArena::instance().IsBattleArenaMap(ch->GetMapIndex()) == false)
 						{
 #if defined(__DICE_SYSTEM__)
-							item->SetOwnership(f.GetItemOwner());
+							pkOwner = f.GetItemOwner();
 #else
-							item->SetOwnership(ch);
+							pkOwner = ch;
 #endif
 						}
-						item->StartDestroyEvent();
 
-						pos.x = number(-7, 7) * 20;
-						pos.y = number(-7, 7) * 20;
-						pos.x += GetX();
-						pos.y += GetY();
+#ifdef __COMFORT_PACKAGE_SYSTEM__
+						if (pkOwner && pkOwner->TryComfortAutoGiveItem(item))
+						{
+							sys_log(0, "COMFORT_AUTO_GIVE_MULTI: %s -> %s", pkOwner->GetName(), item->GetName());
+						}
+						else
+#endif
+						{
+							item->AddToGround(GetMapIndex(), pos);
 
-						sys_log(0, "DROP_ITEM: %s %d %d by %s", item->GetName(), pos.x, pos.y, GetName());
+							if (pkOwner)
+								item->SetOwnership(pkOwner);
+
+							item->StartDestroyEvent();
+
+							pos.x = number(-7, 7) * 20;
+							pos.y = number(-7, 7) * 20;
+							pos.x += GetX();
+							pos.y += GetY();
+
+							sys_log(0, "DROP_ITEM: %s %d %d by %s", item->GetName(), pos.x, pos.y, GetName());
+						}
 					}
 				}
 			}

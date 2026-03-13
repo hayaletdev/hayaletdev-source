@@ -1813,6 +1813,12 @@ public:
 	bool IsDead() const;
 	void Dead(LPCHARACTER pkKiller = NULL, bool bImmediateDead = false);
 
+#ifdef __COMFORT_PACKAGE_SYSTEM__
+	bool HasComfortPackage() const;
+	bool CanComfortAutoPickupItem(LPITEM pkItem);
+	bool TryComfortAutoGiveItem(LPITEM pkItem);
+#endif
+
 	void Reward(bool bItemDrop);
 	void RewardGold(LPCHARACTER pkAttacker);
 

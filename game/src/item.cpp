@@ -1627,7 +1627,6 @@ void CItem::SetOwnership(LPCHARACTER ch, int iSec)
 		{
 			event_cancel(&m_pkOwnershipEvent);
 			m_dwOwnershipPID = 0;
-
 			TPacketGCItemOwnership p;
 
 			p.bHeader = HEADER_GC_ITEM_OWNERSHIP;

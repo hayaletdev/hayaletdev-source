@@ -244,5 +244,13 @@
 #define __AUTO_DETECT_INTERNAL_IP__ // Detect Internal IP
 //#define __USE_SERVER_KEY__ // Check Server Key
 
+////////////////////////////////////////////////////////////////////////////////
+// Hayaletdev
+#define __COMFORT_PACKAGE_SYSTEM__ // Comfort Package System
+
+
+
+
+
 #include "disclaimer.h"
 #endif // __INC_COMMON_SERVICE_H__

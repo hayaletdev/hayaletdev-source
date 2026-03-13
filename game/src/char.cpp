@@ -7626,6 +7626,46 @@ bool CHARACTER::Follow(LPCHARACTER pkChr, float fMinDistance)
 	return true;
 }
 
+#ifdef __COMFORT_PACKAGE_SYSTEM__
+bool CHARACTER::HasComfortPackage() const
+{
+	return FindAffect(AFFECT_COMFORT_PACKAGE) != nullptr;
+}
+
+bool CHARACTER::CanComfortAutoPickupItem(LPITEM pkItem)
+{
+	if (!pkItem)
+		return false;
+
+	if (!HasComfortPackage())
+		return false;
+
+	if (IsDead() || IsWarping())
+		return false;
+
+#if defined(__LOOT_FILTER_SYSTEM__)
+	if (GetLootFilter() && !GetLootFilter()->CanPickUpItem(pkItem))
+		return false;
+#endif
+
+	return true;
+}
+
+bool CHARACTER::TryComfortAutoGiveItem(LPITEM pkItem)
+{
+	if (!CanComfortAutoPickupItem(pkItem))
+		return false;
+
+	AutoGiveItem(pkItem, true, true
+#if defined(__WJ_PICKUP_ITEM_EFFECT__)
+		, true
+#endif
+	);
+
+	return true;
+}
+#endif // __COMFORT_PACKAGE_SYSTEM__
+
 float CHARACTER::GetDistanceFromSafeboxOpen() const
 {
 	return DISTANCE_APPROX(GetX() - m_posSafeboxOpen.x, GetY() - m_posSafeboxOpen.y);

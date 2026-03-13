@@ -3445,6 +3445,24 @@ bool CHARACTER::UseItemEx(LPITEM item, TItemPos DestCell)
 					break;
 #endif
 
+#ifdef __COMFORT_PACKAGE_SYSTEM__
+		case 175401: // Comfort Package Permanent
+		{
+			if (FindAffect(AFFECT_COMFORT_PACKAGE))
+			{
+				ChatPacket(CHAT_TYPE_INFO, LC_STRING("Comfort Package is already active."));
+				return false;
+			}
+
+			AddAffect(AFFECT_COMFORT_PACKAGE, APPLY_NONE, 0, AFF_NONE, INFINITE_AFFECT_DURATION, 0, true);
+
+			ChatPacket(CHAT_TYPE_INFO, LC_STRING("Comfort Package activated permanently."));
+			item->SetCount(item->GetCount() - 1);
+			return true;
+		}
+		break;
+#endif
+
 #if defined(__EXPRESSING_EMOTIONS__)
 				case USE_EMOTION_PACK:
 				{
